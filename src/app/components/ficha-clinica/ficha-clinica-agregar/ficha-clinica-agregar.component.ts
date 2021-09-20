@@ -131,8 +131,15 @@ export class FichaClinicaAgregarComponent implements OnInit {
     return number / 10 <= 1 ? '0' + number.toString() : number.toString();
   }
 
-  guardarFicha(): void {
-    console.log(this.observacion);
+  guardarFichaClinica(): void {
+    this.fichaClinicaService.postFichaClinica(
+      this.motivo,
+      this.diagnostico,
+      this.observacion,
+      this.empleado,
+      this.cliente,
+      this.subcategoria
+    );
   }
 
   back(): void {
