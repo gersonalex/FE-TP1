@@ -12,6 +12,8 @@ import { SubcategoriaService } from 'src/app/services/subcategoria.service';
 export class CategoriaComponent implements OnInit {
   categorias: Categoria[] = [];
   subcategorias: Subcategoria[] = [];
+  categoria: string = '';
+  subcategoria: string = '';
 
   constructor(
     private categoriaService: CategoriaService,
@@ -30,5 +32,9 @@ export class CategoriaComponent implements OnInit {
       (response) => (this.subcategorias = response.lista),
       (err) => console.log('No se pudieron obtener las subcategorias')
     );
+  }
+
+  createCategoria(): void {
+    this.categoriaService.postCategoria(this.categoria, this.subcategoria);
   }
 }

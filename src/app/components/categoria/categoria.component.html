@@ -6,6 +6,7 @@
       class="form-control"
       id="exampleInputEmail1"
       aria-describedby="emailHelp"
+      [(ngModel)]="categoria"
       placeholder="Ingrese la descripción de la nueva categoria"
     />
   </div>
@@ -15,15 +16,18 @@
   <div class="form-group">
     <label for="exampleInputPassword1">Nueva Subcategoria</label>
     <input
-      type="password"
+      type="text"
       class="form-control"
       id="exampleInputPassword1"
+      [(ngModel)]="subcategoria"
       placeholder="Ingrese la descripcion de la nueva subcategoria"
     />
   </div>
 </div>
 
-<button type="submit" class="btn btn-primary">Crear</button>
+<button type="submit" class="btn btn-primary" (click)="createCategoria()">
+  Crear
+</button>
 
 <div class="row">
   <div class="col-md-6">

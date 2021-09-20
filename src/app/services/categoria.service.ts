@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { concatMap, tap } from 'rxjs/operators';
 
 import { listadatos } from '../models/ListaDatos';
 import { Categoria } from '../models/Categoria';
+import { SubcategoriaService } from './subcategoria.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +13,22 @@ import { Categoria } from '../models/Categoria';
 export class CategoriaService {
   private endpoint = 'http://181.123.243.5:8080/stock-pwfe/categoria';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private subcategoriaService: SubcategoriaService
+  ) {}
 
   getCategorias(): Observable<listadatos<Categoria>> {
     return this.http.get<listadatos<Categoria>>(this.endpoint);
   }
 
-  postCategoria(c: Categoria): Observable<Categoria> {
-    return this.http.post<Categoria>(this.endpoint, c).pipe(
-      tap(
-        (data) => console.log('added: ' + data),
-        (error) => console.log('error: ' + error)
-      )
-    );
+  postCategoria(descripcionCategoria: string, descripcionSubcategoria: string) {
+    let nuevaCategoria: Categoria;
+
+    this.http
+      .post<Categoria>(this.endpoint, { descripcion: descripcionCategoria })
+      .subscribe((res) => {
+        this.subcategoriaService.postSubcategoria(res, descripcionSubcategoria);
+      });
   }
 }
