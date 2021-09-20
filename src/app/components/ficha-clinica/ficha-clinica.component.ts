@@ -69,8 +69,8 @@ export class FichaClinicaComponent implements OnInit {
         tap((res) => (empleados = res.lista))
       )
       .subscribe(() => {
-        console.log(personas);
-        console.log(empleados);
+        // console.log(personas);
+        // console.log(empleados);
 
         for (let index = 0; index < personas.length; index++) {
           if (!this.containsObject(personas[index], empleados))

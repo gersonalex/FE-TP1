@@ -4,6 +4,7 @@ import {
   NgbModal,
   ModalDismissReasons,
 } from '@ng-bootstrap/ng-bootstrap';
+import { Location } from '@angular/common';
 import { concatMap, tap } from 'rxjs/operators';
 import { Categoria } from 'src/app/models/Categoria';
 import { Persona } from 'src/app/models/Persona';
@@ -40,7 +41,8 @@ export class FichaClinicaAgregarComponent implements OnInit {
     private subcategoriaService: SubcategoriaService,
     private personaService: PersonaService,
     private fichaClinicaService: FichaClinicaService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -65,8 +67,8 @@ export class FichaClinicaAgregarComponent implements OnInit {
         tap((res) => (empleados = res.lista))
       )
       .subscribe(() => {
-        console.log(personas);
-        console.log(empleados);
+        // console.log(personas);
+        // console.log(empleados);
 
         for (let index = 0; index < personas.length; index++) {
           if (!this.containsObject(personas[index], empleados))
@@ -127,5 +129,13 @@ export class FichaClinicaAgregarComponent implements OnInit {
 
   parseNumber(number: number): string {
     return number / 10 <= 1 ? '0' + number.toString() : number.toString();
+  }
+
+  guardarFicha(): void {
+    console.log(this.observacion);
+  }
+
+  back(): void {
+    this._location.back();
   }
 }

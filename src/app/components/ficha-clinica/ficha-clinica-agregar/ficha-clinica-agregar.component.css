@@ -15,3 +15,13 @@ span.calendar {
 textarea {
   resize: none;
 }
+
+#searchFilter {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+#searchFilter button {
+  margin-left: 40px;
+}
