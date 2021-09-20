@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Nueva Categoria</label>
+    <input
+      type="email"
+      class="form-control"
+      id="exampleInputEmail1"
+      aria-describedby="emailHelp"
+      placeholder="Ingrese la descripción de la nueva categoria"
+    />
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group">
+    <label for="exampleInputPassword1">Nueva Subcategoria</label>
+    <input
+      type="password"
+      class="form-control"
+      id="exampleInputPassword1"
+      placeholder="Ingrese la descripcion de la nueva subcategoria"
+    />
+  </div>
+</div>
+
+<button type="submit" class="btn btn-primary">Crear</button>
+
+<div class="row">
+  <div class="col-md-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID Categoria</th>
+          <th scope="col">Descripcion Categoria</th>
+          <th scope="col">Ver subcategorias</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let categoria of categorias">
+          <td>{{ categoria.idCategoria }}</td>
+          <td>{{ categoria.descripcion }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-link"
+              (click)="obtenerSubcategorias(categoria)"
+            >
+              Link
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Descripcion Subcategoria</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let subcategoria of subcategorias">
+          <td>{{ subcategoria.descripcion }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

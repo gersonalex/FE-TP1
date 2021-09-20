@@ -11,6 +11,7 @@ import { ReservaComponent } from './components/reserva/reserva.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CategoriaComponent } from './components/categoria/categoria.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NavbarComponent,
     ServicioComponent,
     ReservaComponent,
+    CategoriaComponent,
   ],
   imports: [
     BrowserModule,
