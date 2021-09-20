@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriaComponent } from './components/categoria/categoria.component';
+import { FichaClinicaAgregarComponent } from './components/ficha-clinica/ficha-clinica-agregar/ficha-clinica-agregar.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CategoriaComponent } from './components/categoria/categoria.component';
     ServicioComponent,
     ReservaComponent,
     CategoriaComponent,
+    FichaClinicaAgregarComponent,
   ],
   imports: [
     BrowserModule,

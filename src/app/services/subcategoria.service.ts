@@ -32,6 +32,4 @@ export class SubcategoriaService {
       })
       .subscribe((res) => console.log(res));
   }
-
-  //FALTA AGREGAR SUBCATEGORIA
 }
