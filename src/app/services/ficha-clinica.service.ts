@@ -93,9 +93,12 @@ export class FichaClinicaService {
 
     this.http
       .post<FichaClinica>(this.endpoint, data, { headers: httpHeaders })
-      .subscribe((res) => {
-        console.log('Fecha Clinica creada');
-        console.log(res);
-      });
+      .subscribe(
+        (res) => {
+          console.log('Fecha Clinica creada');
+          console.log(res);
+        },
+        (error) => console.log('No se pudo crear la ficha clinica')
+      );
   }
 }
