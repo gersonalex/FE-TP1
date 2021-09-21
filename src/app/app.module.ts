@@ -14,6 +14,7 @@ import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriaComponent } from './components/categoria/categoria.component';
 import { FichaClinicaAgregarComponent } from './components/ficha-clinica/ficha-clinica-agregar/ficha-clinica-agregar.component';
 import { ReservaAgregarComponent } from './components/reserva/reserva-agregar/reserva-agregar.component';
+import { ServicioAgregarComponent } from './components/servicio/servicio-agregar/servicio-agregar.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ReservaAgregarComponent } from './components/reserva/reserva-agregar/re
     CategoriaComponent,
     FichaClinicaAgregarComponent,
     ReservaAgregarComponent,
+    ServicioAgregarComponent,
   ],
   imports: [
     BrowserModule,
