@@ -1,5 +1,6 @@
 span.calendar {
-  background: url("../../../assets/calendar-alt-regular.svg") no-repeat top left;
+  background: url("../../../../assets/calendar-alt-regular.svg") no-repeat top
+    left;
   background-size: contain;
   cursor: pointer;
   display: inline-block;
@@ -11,13 +12,16 @@ span.calendar {
   margin-top: 20px;
 }
 
+textarea {
+  resize: none;
+}
+
 #searchFilter {
   margin-top: 20px;
   margin-bottom: 20px;
   display: flex;
   justify-content: flex-end;
 }
-
 #searchFilter button {
   margin-left: 40px;
 }

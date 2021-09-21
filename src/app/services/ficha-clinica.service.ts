@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FichaClinica } from '../models/fichaClinica';
+import { FichaClinica } from '../models/FichaClinica';
 import { listadatos } from '../models/ListaDatos';
 import { Persona } from '../models/Persona';
 import { Subcategoria } from '../models/Subcategoria';
@@ -87,9 +87,7 @@ export class FichaClinicaService {
     console.log('vamos a insertar una nueva ficha');
     console.log(data);
 
-    const httpHeaders = new HttpHeaders();
-    httpHeaders.append('Content-Type', 'application/json');
-    httpHeaders.append('usuario', 'gustavo');
+    const httpHeaders = new HttpHeaders().append('Content-Type', 'application/json').append('usuario', 'usuario2');
 
     this.http
       .post<FichaClinica>(this.endpoint, data, { headers: httpHeaders })

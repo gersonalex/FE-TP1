@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CategoriaComponent } from './components/categoria/categoria.component';
 import { FichaClinicaAgregarComponent } from './components/ficha-clinica/ficha-clinica-agregar/ficha-clinica-agregar.component';
+import { ReservaAgregarComponent } from './components/reserva/reserva-agregar/reserva-agregar.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FichaClinicaAgregarComponent } from './components/ficha-clinica/ficha-c
     ReservaComponent,
     CategoriaComponent,
     FichaClinicaAgregarComponent,
+    ReservaAgregarComponent,
   ],
   imports: [
     BrowserModule,

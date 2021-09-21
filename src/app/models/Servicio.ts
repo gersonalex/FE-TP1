@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FichaClinica } from './fichaClinica';
+import { FichaClinica } from './FichaClinica';
 
 @Injectable()
 export class Servicio {

@@ -1,50 +1,49 @@
 import { Component, OnInit } from '@angular/core';
-import { Categoria } from 'src/app/models/Categoria';
-import { Subcategoria } from 'src/app/models/Subcategoria';
-import { CategoriaService } from 'src/app/services/categoria.service';
-import { SubcategoriaService } from 'src/app/services/subcategoria.service';
-
 import {
   NgbDateStruct,
   NgbModal,
   ModalDismissReasons,
 } from '@ng-bootstrap/ng-bootstrap';
-import { Persona } from 'src/app/models/Persona';
-import { PersonaService } from 'src/app/services/persona.service';
+import { Location } from '@angular/common';
 import { concatMap, tap } from 'rxjs/operators';
-import { listadatos } from 'src/app/models/ListaDatos';
+import { Categoria } from 'src/app/models/Categoria';
+import { Persona } from 'src/app/models/Persona';
+import { Subcategoria } from 'src/app/models/Subcategoria';
+import { CategoriaService } from 'src/app/services/categoria.service';
 import { FichaClinicaService } from 'src/app/services/ficha-clinica.service';
-import { FichaClinica } from 'src/app/models/FichaClinica';
+import { PersonaService } from 'src/app/services/persona.service';
+import { SubcategoriaService } from 'src/app/services/subcategoria.service';
+
 
 @Component({
-  selector: 'app-ficha-clinica',
-  templateUrl: './ficha-clinica.component.html',
-  styleUrls: ['./ficha-clinica.component.css'],
+  selector: 'app-reserva-agregar',
+  templateUrl: './reserva-agregar.component.html',
+  styleUrls: ['./reserva-agregar.component.css']
 })
-export class FichaClinicaComponent implements OnInit {
+export class ReservaAgregarComponent implements OnInit {
+  fecha!: NgbDateStruct;
   categorias: Categoria[] = [];
   subcategorias: Subcategoria[] = [];
-  fichasClinicas: FichaClinica[] = [];
   empleados: Persona[] = [];
   clientes: Persona[] = [];
-
-  fechaDesde!: NgbDateStruct;
-  fechaHasta!: NgbDateStruct;
-  cliente: Persona = new Persona();
-  empleado: Persona = new Persona();
-
   closeResult = '';
 
   //variables del formulario
   categoria: Categoria = new Categoria();
   subcategoria: Subcategoria = new Subcategoria();
+  cliente: Persona = new Persona();
+  empleado: Persona = new Persona();
+  motivo: string = '';
+  diagnostico: string = '';
+  observacion: string = '';
 
   constructor(
     private categoriaService: CategoriaService,
     private subcategoriaService: SubcategoriaService,
     private personaService: PersonaService,
     private fichaClinicaService: FichaClinicaService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _location: Location
   ) {}
 
   ngOnInit(): void {
@@ -77,11 +76,6 @@ export class FichaClinicaComponent implements OnInit {
             this.clientes.push(personas[index]);
         }
       });
-
-    this.fichaClinicaService.getFichasClinicas().subscribe(
-      (data) => (this.fichasClinicas = data.lista),
-      (error) => console.log('no se pudieron conseguir las fichas clinicas')
-    );
   }
 
   onChangeCategoria() {
@@ -134,22 +128,23 @@ export class FichaClinicaComponent implements OnInit {
     return false;
   }
 
-  filtrar() {
-    let fechaD =
-      this.fechaDesde.year.toString() +
-      this.parseNumber(this.fechaDesde.month) +
-      this.parseNumber(this.fechaDesde.day);
-
-    let fechaH =
-      this.fechaHasta.year.toString() +
-      this.parseNumber(this.fechaHasta.month) +
-      this.parseNumber(this.fechaHasta.day);
-
-    console.log(fechaD);
-    console.log(fechaH);
-  }
-
   parseNumber(number: number): string {
     return number / 10 <= 1 ? '0' + number.toString() : number.toString();
   }
+
+  guardarFichaClinica(): void {
+    this.fichaClinicaService.postFichaClinica(
+      this.motivo,
+      this.diagnostico,
+      this.observacion,
+      this.empleado,
+      this.cliente,
+      this.subcategoria
+    );
+  }
+
+  back(): void {
+    this._location.back();
+  }
 }
+
