@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-6">
-    <label >Fecha desde</label>
+    <label>Fecha desde</label>
     <div class="col-md-6 input-group">
       <input
         class="form-control"
@@ -23,7 +23,7 @@
   </div>
 
   <div class="col-md-6">
-    <label >Fecha hasta</label>
+    <label>Fecha hasta</label>
     <div class="input-group">
       <input
         class="form-control"
@@ -203,7 +203,11 @@
         <td>{{ ficha.idCliente.nombre }} {{ ficha.idCliente.apellido }}</td>
         <td>{{ ficha.idTipoProducto.idCategoria.descripcion }}</td>
         <td>{{ ficha.idTipoProducto.descripcion }}</td>
-        <td><a href="#">Crear servicio</a></td>
+        <td>
+          <a routerLink="agregar-servicio/{{ ficha.idFichaClinica }}"
+            >Crear servicio</a
+          >
+        </td>
       </tr>
     </tbody>
   </table>

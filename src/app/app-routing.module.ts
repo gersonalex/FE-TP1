@@ -6,12 +6,14 @@ import { FichaClinicaComponent } from './components/ficha-clinica/ficha-clinica.
 import { PacienteComponent } from './components/paciente/paciente.component';
 import { ReservaAgregarComponent } from './components/reserva/reserva-agregar/reserva-agregar.component';
 import { ReservaComponent } from './components/reserva/reserva.component';
+import { ServicioAgregarComponent } from './components/servicio/servicio-agregar/servicio-agregar.component';
 import { ServicioComponent } from './components/servicio/servicio.component';
 
 const routes: Routes = [
   { path: '', component: FichaClinicaComponent },
   { path: 'categoria', component: CategoriaComponent },
   { path: 'servicios', component: ServicioComponent },
+  { path: 'agregar-servicio/:id', component: ServicioAgregarComponent },
   { path: 'agregar-ficha-clinica', component: FichaClinicaAgregarComponent },
   { path: 'reserva', component: ReservaComponent },
   { path: 'reserva-agregar', component: ReservaAgregarComponent },

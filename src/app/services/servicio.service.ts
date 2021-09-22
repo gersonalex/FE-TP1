@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FichaClinica } from '../models/FichaClinica';
 import { listadatos } from '../models/ListaDatos';
 import { Servicio } from '../models/Servicio';
 
@@ -14,5 +15,25 @@ export class ServicioService {
 
   getServicios(): Observable<listadatos<Servicio>> {
     return this.http.get<listadatos<Servicio>>(this.endpoint);
+  }
+
+  postServicio(idFicha: number, observacion: number) {
+    const httpHeaders = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('usuario', 'usuario2');
+
+    let data = {
+      idFichaClinica: {
+        idFichaClinica: idFicha,
+      },
+      observacion: observacion,
+    };
+
+    this.http
+      .post<Servicio>(this.endpoint, data, { headers: httpHeaders })
+      .subscribe(
+        (data) => console.log(data),
+        (err) => console.log(err)
+      );
   }
 }
