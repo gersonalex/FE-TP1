@@ -49,4 +49,33 @@ export class PacienteComponent implements OnInit {
     }
     return false;
   }
+
+  parseDate(fechaNacimiento: NgbDateStruct): string {
+    console.log(fechaNacimiento);
+    let fechaNac =
+      fechaNacimiento.year.toString() +
+      '-' +
+      this.parseNumber(fechaNacimiento.month) +
+      '-' +
+      this.parseNumber(fechaNacimiento.day) +
+      ' 00:00:00';
+
+    return fechaNac;
+  }
+
+  parseNumber(number: number): string {
+    return number / 10 <= 1 ? '0' + number.toString() : number.toString();
+  }
+
+  crearPersona() {
+    let persona = new Persona();
+    persona.nombre = this.nombre;
+    persona.apellido = this.apellido;
+    persona.email = this.email;
+    persona.telefono = this.telefono;
+    persona.cedula = this.cedula;
+    persona.fechaNacimiento = this.parseDate(this.fechaNacimiento);
+
+    this.personaService.postPersona(persona);
+  }
 }

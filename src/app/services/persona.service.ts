@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
@@ -23,5 +23,32 @@ export class PersonaService {
 
   getPersonas(): Observable<listadatos<Persona>> {
     return this.http.get<listadatos<Persona>>(this.endpoint);
+  }
+
+  postPersona(persona: Persona): void {
+    let data = {
+      nombre: persona.nombre,
+      apellido: persona.apellido,
+      email: persona.email,
+      telefono: persona.telefono,
+      cedula: persona.cedula,
+      tipoPersona: 'FISICA',
+      fechaNacimiento: persona.fechaNacimiento,
+    };
+
+    const httpHeaders = new HttpHeaders().append(
+      'Content-Type',
+      'application/json'
+    );
+
+    this.http
+      .post<Persona>(this.endpoint, data, { headers: httpHeaders })
+      .subscribe(
+        (res) => {
+          console.log('Persona guardada');
+          console.log(res);
+        },
+        (error) => console.log('No se pudo guardar la persona')
+      );
   }
 }
