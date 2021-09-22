@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CategoriaComponent } from './components/categoria/categoria.component';
 import { FichaClinicaAgregarComponent } from './components/ficha-clinica/ficha-clinica-agregar/ficha-clinica-agregar.component';
 import { FichaClinicaComponent } from './components/ficha-clinica/ficha-clinica.component';
+import { PacienteComponent } from './components/paciente/paciente.component';
 import { ReservaAgregarComponent } from './components/reserva/reserva-agregar/reserva-agregar.component';
 import { ReservaComponent } from './components/reserva/reserva.component';
 import { ServicioComponent } from './components/servicio/servicio.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'agregar-ficha-clinica', component: FichaClinicaAgregarComponent },
   { path: 'reserva', component: ReservaComponent },
   { path: 'reserva-agregar', component: ReservaAgregarComponent },
+  { path: 'pacientes', component: PacienteComponent },
 ];
 
 @NgModule({

@@ -36,7 +36,7 @@
         <tr>
           <th scope="col">ID Categoria</th>
           <th scope="col">Descripcion Categoria</th>
-          <th scope="col">Ver subcategorias</th>
+          <th scope="col">Subcategorias</th>
         </tr>
       </thead>
       <tbody>
@@ -44,13 +44,9 @@
           <td>{{ categoria.idCategoria }}</td>
           <td>{{ categoria.descripcion }}</td>
           <td>
-            <button
-              type="button"
-              class="btn btn-link"
-              (click)="obtenerSubcategorias(categoria)"
-            >
-              Link
-            </button>
+            <a class="btn btn-link" (click)="obtenerSubcategorias(categoria)">
+              Ver
+            </a>
           </td>
         </tr>
       </tbody>

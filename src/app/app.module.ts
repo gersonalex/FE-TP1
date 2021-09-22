@@ -15,6 +15,7 @@ import { CategoriaComponent } from './components/categoria/categoria.component';
 import { FichaClinicaAgregarComponent } from './components/ficha-clinica/ficha-clinica-agregar/ficha-clinica-agregar.component';
 import { ReservaAgregarComponent } from './components/reserva/reserva-agregar/reserva-agregar.component';
 import { ServicioAgregarComponent } from './components/servicio/servicio-agregar/servicio-agregar.component';
+import { PacienteComponent } from './components/paciente/paciente.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ServicioAgregarComponent } from './components/servicio/servicio-agregar
     FichaClinicaAgregarComponent,
     ReservaAgregarComponent,
     ServicioAgregarComponent,
+    PacienteComponent,
   ],
   imports: [
     BrowserModule,
