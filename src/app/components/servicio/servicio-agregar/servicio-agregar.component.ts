@@ -82,7 +82,7 @@ export class ServicioAgregarComponent implements OnInit {
       .open(content, { ariaLabelledBy: 'modal-basic-title' })
       .result.then(
         (result) => {
-          this.closeResult = `Closed with: ${result}`;
+          (this.closeResult = `Closed with: ${result}`), console.log('TEST');
         },
         (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

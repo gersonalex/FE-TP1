@@ -4,6 +4,7 @@ import { CategoriaComponent } from './components/categoria/categoria.component';
 import { FichaClinicaAgregarComponent } from './components/ficha-clinica/ficha-clinica-agregar/ficha-clinica-agregar.component';
 import { FichaClinicaComponent } from './components/ficha-clinica/ficha-clinica.component';
 import { PacienteComponent } from './components/paciente/paciente.component';
+import { ProductoComponent } from './components/producto/producto.component';
 import { ReservaAgregarComponent } from './components/reserva/reserva-agregar/reserva-agregar.component';
 import { ReservaComponent } from './components/reserva/reserva.component';
 import { ServicioAgregarComponent } from './components/servicio/servicio-agregar/servicio-agregar.component';
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'reserva', component: ReservaComponent },
   { path: 'reserva-agregar', component: ReservaAgregarComponent },
   { path: 'pacientes', component: PacienteComponent },
+  { path: 'productos', component: ProductoComponent },
 ];
 
 @NgModule({

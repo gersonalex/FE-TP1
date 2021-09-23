@@ -16,6 +16,7 @@ import { FichaClinicaAgregarComponent } from './components/ficha-clinica/ficha-c
 import { ReservaAgregarComponent } from './components/reserva/reserva-agregar/reserva-agregar.component';
 import { ServicioAgregarComponent } from './components/servicio/servicio-agregar/servicio-agregar.component';
 import { PacienteComponent } from './components/paciente/paciente.component';
+import { ProductoComponent } from './components/producto/producto.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { PacienteComponent } from './components/paciente/paciente.component';
     ReservaAgregarComponent,
     ServicioAgregarComponent,
     PacienteComponent,
+    ProductoComponent,
   ],
   imports: [
     BrowserModule,
