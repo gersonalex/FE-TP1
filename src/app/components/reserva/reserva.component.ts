@@ -29,6 +29,11 @@ export class ReservaComponent implements OnInit {
   cliente: Persona = new Persona();
   empleado: Persona = new Persona();
 
+  fechaD = '';
+  fechaH = '';
+
+  observacion = '';
+
   closeResult = '';
 
 
@@ -123,25 +128,60 @@ export class ReservaComponent implements OnInit {
 
   filtrarReservas(): void {
 
-    let fechaD =
+
+    if(this.fechaDesde!=undefined){
+      this.fechaD =
       this.fechaDesde.year.toString() +
       this.parseNumber(this.fechaDesde.month) +
       this.parseNumber(this.fechaDesde.day);
+    }
 
-    let fechaH =
+    if(this.fechaHasta!=undefined){
+      this.fechaH =
       this.fechaHasta.year.toString() +
       this.parseNumber(this.fechaHasta.month) +
       this.parseNumber(this.fechaHasta.day);
+    }
 
-      console.log(fechaD);
-      console.log(fechaH);
 
     this.reservaService.getReservasFiltro(this.empleado,this.cliente,
-      fechaD,
-      fechaH).subscribe(
+      this.fechaD,
+      this.fechaH).subscribe(
       (data) => (this.reservas = data.lista),
       (error) => console.log('no se pudieron conseguir las reservas')
     );
   }
+
+  modificarReserva(reserva: Reserva) {
+    this.reservaService.putReserva(reserva, this.observacion).subscribe(
+      (data: any) => this.filtrarReservas(),
+      (error: any) => console.log('no se pudo modificar la reserva')
+    );
+  }
+
+  cancelarReserva(reserva: Reserva) {
+    this.reservaService.deleteReserva(reserva).subscribe(
+      (data: any) => this.filtrarReservas(),
+      (error: any) => console.log('no se pudo modificar la reserva')
+    );
+  }
+
+
+  openModificar(content: any, reserva: Reserva) {
+    this.observacion = '';
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          //actualizar reserva
+          this.modificarReserva(reserva);
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
 }
 

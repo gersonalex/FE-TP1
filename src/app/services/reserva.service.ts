@@ -106,4 +106,27 @@ export class ReservaService {
       '}}';
     return this.http.get<listadatos<FichaClinica>>(_endpoint);
   }
+
+  putReserva(reserva: Reserva, observacion: String): Observable <any> {
+    let data = {
+      idReserva: reserva.idReserva,
+      observacion: observacion,
+      flagAsistio: "S"
+    };
+
+    const httpHeaders = new HttpHeaders().append('Content-Type', 'application/json').append('usuario', 'usuario2');
+
+    return this.http
+      .put<Reserva>(this.endpoint, data, { headers: httpHeaders });
+  }
+
+
+  deleteReserva(reserva: Reserva): Observable <any>{
+
+    const httpHeaders = new HttpHeaders().append('Content-Type', 'application/json').append('usuario', 'usuario2');
+
+    return this.http
+      .delete<Reserva>(this.endpoint+'/'+reserva.idReserva, { headers: httpHeaders });
+  }
+
 }

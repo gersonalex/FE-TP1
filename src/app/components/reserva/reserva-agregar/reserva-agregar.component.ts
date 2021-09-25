@@ -3,6 +3,7 @@ import {
   NgbDateStruct,
   NgbModal,
   ModalDismissReasons,
+  NgbDate,
 } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
 import { concatMap, tap } from 'rxjs/operators';
@@ -21,7 +22,7 @@ import { SubcategoriaService } from 'src/app/services/subcategoria.service';
   styleUrls: ['./reserva-agregar.component.css']
 })
 export class ReservaAgregarComponent implements OnInit {
-  fecha!: NgbDateStruct;
+  fecha!: NgbDate;
   categorias: Categoria[] = [];
   subcategorias: Subcategoria[] = [];
   empleados: Persona[] = [];
