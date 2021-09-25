@@ -77,5 +77,18 @@ export class PacienteComponent implements OnInit {
     persona.fechaNacimiento = this.parseDate(this.fechaNacimiento);
 
     this.personaService.postPersona(persona);
-  }
+
+    this.nombre= '';
+    this.apellido= '';
+    this.email= '';
+    this.telefono= '';
+    this.ruc= '';
+    this.cedula= '';
+    this.fechaNacimiento= {
+        year:0,
+        month:0,
+        day: 0
+      };
+    };
+
 }

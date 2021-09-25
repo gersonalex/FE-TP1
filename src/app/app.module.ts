@@ -18,6 +18,7 @@ import { ServicioAgregarComponent } from './components/servicio/servicio-agregar
 import { PacienteComponent } from './components/paciente/paciente.component';
 import { ProductoComponent } from './components/producto/producto.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

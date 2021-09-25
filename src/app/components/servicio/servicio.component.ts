@@ -148,4 +148,21 @@ export class ServicioComponent implements OnInit {
   parseNumber(number: number): string {
     return number / 10 <= 1 ? '0' + number.toString() : number.toString();
   }
+  limpiarservicio(){
+    this.fechaDesde =  {
+      year:0,
+      month:0,
+      day: 0
+    };
+    this.fechaHasta =  {
+      year:0,
+      month:0,
+      day: 0
+    };
+    this.cliente = new Persona();
+    this.empleado = new Persona();
+    this.categoria = new Categoria();
+    this.subcategoria = new Subcategoria();
+
+  }
 }

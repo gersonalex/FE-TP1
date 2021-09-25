@@ -26,7 +26,6 @@ export class FichaClinicaAgregarComponent implements OnInit {
   empleados: Persona[] = [];
   clientes: Persona[] = [];
   closeResult = '';
-
   //variables del formulario
   categoria: Categoria = new Categoria();
   subcategoria: Subcategoria = new Subcategoria();
@@ -140,6 +139,14 @@ export class FichaClinicaAgregarComponent implements OnInit {
       this.cliente,
       this.subcategoria
     );
+    this.categoria = new Categoria();
+    this.subcategoria=new Subcategoria();
+    this.cliente= new Persona();
+    this.empleado= new Persona();
+    this.motivo= '';
+    this.diagnostico= '';
+    this.observacion= '';
+
   }
 
   back(): void {
