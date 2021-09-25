@@ -21,39 +21,28 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6">
-    <label for="exampleInputEmail1">Categorias</label>
-    <select
-      class="form-select"
-      id="exampleInputEmail1"
-      aria-label="Default select example"
-      (change)="onChangeCategoria()"
-      [(ngModel)]="categoria"
-    >
-      <option *ngFor="let categoria of categorias" [ngValue]="categoria">
-        {{ categoria.descripcion }}
-      </option>
-    </select>
-  </div>
 
   <div class="col-md-6">
-    <label for="exampleInputEmail1">Subcategorias</label>
-    <select
-      class="form-select"
-      id="exampleInputEmail1"
-      aria-label="Default select example"
-      [(ngModel)]="subcategoria"
-    >
-      <option
-        *ngFor="let subcategoria of subcategorias"
-        [ngValue]="subcategoria"
+    <div *ngIf="this.empleado.nombre!=null && this.fecha!=undefined; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+      <button
+        class="btn btn-lg btn-outline-primary"
+        (click)="openAgendaLibre(contentAgendaLibre)"
       >
-        {{ subcategoria.descripcion }}
-      </option>
-    </select>
+        Horarios
+      </button>
+    </ng-template>
+    <ng-template #elseBlock>
+      <button
+        class="btn btn-lg btn-outline-primary"
+        (click)="openAgendaLibre(contentAgendaLibre)"
+        [disabled]=true
+      >
+        Horarios
+      </button>
+    </ng-template>
+
+    Horario seleccionado: {{ agenda.horaInicioCadena }} {{ agenda.horaFinCadena }}
   </div>
 </div>
 
@@ -133,6 +122,44 @@
   </div>
 </ng-template>
 
+<ng-template #contentAgendaLibre let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agenda</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="agenda">Agenda Disponible</label>
+      <select
+        class="form-select"
+        id="idAgenda"
+        aria-label="Default select example"
+        [(ngModel)]="agenda"
+      >
+        <option *ngFor="let agendaLibre of agendasLibres" [ngValue]="agendaLibre">
+          {{ agendaLibre.horaInicioCadena }} {{ agendaLibre.horaFinCadena }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Guardar
+    </button>
+  </div>
+</ng-template>
+
 <div class="row">
   <div class="col-md-6">
     <button
@@ -155,29 +182,6 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6">
-    <label for="exampleFormControlTextarea1" class="form-label">Motivo</label>
-    <textarea
-      class="form-control"
-      id="exampleFormControlTextarea1"
-      rows="3"
-      [(ngModel)]="motivo"
-    ></textarea>
-  </div>
-  <div class="col-md-6">
-    <label for="exampleFormControlTextarea1" class="form-label"
-      >Diagnóstico</label
-    >
-    <textarea
-      class="form-control"
-      id="exampleFormControlTextarea1"
-      rows="3"
-      [(ngModel)]="diagnostico"
-    ></textarea>
-  </div>
-</div>
-
-<div class="row">
   <div class="col-md-12">
     <label for="exampleFormControlTextarea1" class="form-label"
       >Observación</label
@@ -192,37 +196,29 @@
 </div>
 
 <div id="searchFilter">
-  <button
+  <div *ngIf="this.cliente.nombre!=null && this.empleado.nombre!=null && this.fecha!=undefined && this.agenda.horaInicioCadena!=null; then thenGuardar else elseGuardar"></div>
+  <ng-template #thenGuardar>
+    <button
     type="button"
     class="btn btn-outline-primary"
-    (click)="guardarFichaClinica()"
+    (click)="guardarReserva()"
   >
     Guardar
   </button>
+  </ng-template>
+
+  <ng-template #elseGuardar>
+    <button
+    type="button"
+    class="btn btn-outline-primary"
+    (click)="guardarReserva()"
+    [disabled]=true
+  >
+    Guardar
+  </button>
+  </ng-template>
+
   <button type="button" class="btn btn-outline-primary" (click)="back()">
     Cancelar
   </button>
-</div>
-
-<div class="row">
-  <h4>Servicios creados a partir de esta ficha</h4>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Fecha</th>
-        <th scope="col">Presupuesto</th>
-        <th scope="col">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- <tr *ngFor="let ficha of fichasClinicas">
-        <td>{{ ficha.fechaHora }}</td>
-        <td>{{ ficha.idEmpleado.nombre }} {{ ficha.idEmpleado.apellido }}</td>
-        <td>{{ ficha.idCliente.nombre }} {{ ficha.idCliente.apellido }}</td>
-        <td>{{ ficha.idTipoProducto.idCategoria.descripcion }}</td>
-        <td>{{ ficha.idTipoProducto.descripcion }}</td>
-        <td><a href="#">Crear servicio</a></td>
-      </tr> -->
-    </tbody>
-  </table>
 </div>

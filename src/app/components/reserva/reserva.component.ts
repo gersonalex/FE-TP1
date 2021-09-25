@@ -122,7 +122,7 @@ export class ReservaComponent implements OnInit {
   }
 
   parseNumber(number: number): string {
-    return number / 10 <= 1 ? '0' + number.toString() : number.toString();
+    return number / 10 < 1 ? '0' + number.toString() : number.toString();
   }
 
 
