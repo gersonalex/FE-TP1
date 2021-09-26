@@ -1,7 +1,9 @@
 import { formatDate } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { AgendaLibre } from '../models/AgendaLibre';
 import { FichaClinica } from '../models/FichaClinica';
 import { listadatos } from '../models/ListaDatos';
 import { Persona } from '../models/Persona';
@@ -12,12 +14,23 @@ import { Reserva } from '../models/Reserva';
 })
 export class ReservaService {
   private endpoint = 'http://181.123.243.5:8080/stock-pwfe/reserva';
+  private endpointAgenda = 'http://181.123.243.5:8080/stock-pwfe/persona/';
   filtro: string = '';
+  fecha = '';
 
   constructor(private http: HttpClient) {}
 
   getReservas(): Observable<listadatos<Reserva>> {
     return this.http.get<listadatos<Reserva>>(this.endpoint);
+  }
+
+  getAgendas(id: number, fechaAgenda: NgbDate): Observable<AgendaLibre[]> {
+    this.fecha =
+      fechaAgenda.year.toString() +
+      this.parseNumber(fechaAgenda.month) +
+      this.parseNumber(fechaAgenda.day);
+    console.log('fecha: '+this.fecha);
+    return this.http.get<AgendaLibre[]>(this.endpointAgenda+id+'/agenda?fecha='+this.fecha+'&disponible=S');
   }
 
   getReservasRangoFechas(
@@ -106,4 +119,58 @@ export class ReservaService {
       '}}';
     return this.http.get<listadatos<FichaClinica>>(_endpoint);
   }
+
+  putReserva(reserva: Reserva, observacion: String): Observable <any> {
+    let data = {
+      idReserva: reserva.idReserva,
+      observacion: observacion,
+      flagAsistio: "S"
+    };
+
+    const httpHeaders = new HttpHeaders().append('Content-Type', 'application/json').append('usuario', 'usuario2');
+
+    return this.http
+      .put<Reserva>(this.endpoint, data, { headers: httpHeaders });
+  }
+
+
+  deleteReserva(reserva: Reserva): Observable <any>{
+
+    const httpHeaders = new HttpHeaders().append('Content-Type', 'application/json').append('usuario', 'usuario2');
+
+    return this.http
+      .delete<Reserva>(this.endpoint+'/'+reserva.idReserva, { headers: httpHeaders });
+  }
+
+  postReserva(fecha: string, horaInicioCadena: string, horaFinCadena: string, idPersonaEmpleado: number, idPersonaCliente: number, observacion: string): void{
+
+    let data = {
+      fechaCadena: fecha,
+      horaInicioCadena: horaInicioCadena,
+      horaFinCadena: horaFinCadena,
+      idEmpleado:{
+        idPersona:idPersonaEmpleado
+      },
+      idCliente:{
+        idPersona:idPersonaCliente
+      },
+      observacion: (observacion == '') ? null : observacion
+    };
+
+    const httpHeaders = new HttpHeaders().append('Content-Type', 'application/json').append('usuario', 'usuario2');
+
+    this.http.post<Reserva>(this.endpoint, data, { headers: httpHeaders })
+    .subscribe(
+      (res) => {
+        console.log('Reserva creada');
+        console.log(res);
+      },
+      (error) => console.log('No se pudo crear la reserva')
+    );
+  }
+
+  parseNumber(number: number): string {
+    return number / 10 < 1 ? '0' + number.toString() : number.toString();
+  }
+
 }
