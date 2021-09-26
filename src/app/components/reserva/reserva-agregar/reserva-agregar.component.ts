@@ -3,16 +3,16 @@ import {
   NgbDateStruct,
   NgbModal,
   ModalDismissReasons,
+  NgbDate,
 } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
 import { concatMap, tap } from 'rxjs/operators';
-import { Categoria } from 'src/app/models/Categoria';
 import { Persona } from 'src/app/models/Persona';
-import { Subcategoria } from 'src/app/models/Subcategoria';
-import { CategoriaService } from 'src/app/services/categoria.service';
-import { FichaClinicaService } from 'src/app/services/ficha-clinica.service';
+import { ReservaService } from 'src/app/services/reserva.service';
 import { PersonaService } from 'src/app/services/persona.service';
-import { SubcategoriaService } from 'src/app/services/subcategoria.service';
+import { AgendaLibre } from 'src/app/models/AgendaLibre';
+import { Observable } from 'rxjs';
+import { Reserva } from 'src/app/models/Reserva';
 
 
 @Component({
@@ -21,36 +21,29 @@ import { SubcategoriaService } from 'src/app/services/subcategoria.service';
   styleUrls: ['./reserva-agregar.component.css']
 })
 export class ReservaAgregarComponent implements OnInit {
-  fecha!: NgbDateStruct;
-  categorias: Categoria[] = [];
-  subcategorias: Subcategoria[] = [];
+  fecha!: NgbDate;
   empleados: Persona[] = [];
   clientes: Persona[] = [];
+  agenda: AgendaLibre = new AgendaLibre();
+  agendasLibres: AgendaLibre[] = [];
   closeResult = '';
 
   //variables del formulario
-  categoria: Categoria = new Categoria();
-  subcategoria: Subcategoria = new Subcategoria();
   cliente: Persona = new Persona();
   empleado: Persona = new Persona();
+  reserva: Reserva = new Reserva();
   motivo: string = '';
   diagnostico: string = '';
   observacion: string = '';
 
   constructor(
-    private categoriaService: CategoriaService,
-    private subcategoriaService: SubcategoriaService,
     private personaService: PersonaService,
-    private fichaClinicaService: FichaClinicaService,
     private modalService: NgbModal,
-    private _location: Location
+    private _location: Location,
+    private reservaService: ReservaService
   ) {}
 
   ngOnInit(): void {
-    this.categoriaService.getCategorias().subscribe(
-      (response) => (this.categorias = response.lista),
-      (error) => console.log('No se pudieron obtener las categorias')
-    );
 
     this.personaService.getEmpleados().subscribe(
       (response) => (this.empleados = response.lista),
@@ -76,13 +69,6 @@ export class ReservaAgregarComponent implements OnInit {
             this.clientes.push(personas[index]);
         }
       });
-  }
-
-  onChangeCategoria() {
-    this.subcategoriaService.getSubCategorias(this.categoria).subscribe(
-      (response) => (this.subcategorias = response.lista),
-      (error) => console.log('No se pudieron obtener las subcategorias')
-    );
   }
 
   openEmpleados(content: any) {
@@ -129,22 +115,44 @@ export class ReservaAgregarComponent implements OnInit {
   }
 
   parseNumber(number: number): string {
-    return number / 10 <= 1 ? '0' + number.toString() : number.toString();
-  }
-
-  guardarFichaClinica(): void {
-    this.fichaClinicaService.postFichaClinica(
-      this.motivo,
-      this.diagnostico,
-      this.observacion,
-      this.empleado,
-      this.cliente,
-      this.subcategoria
-    );
+    return number / 10 < 1 ? '0' + number.toString() : number.toString();
   }
 
   back(): void {
     this._location.back();
   }
+
+  openAgendaLibre(content: any) {
+    const t = this.reservaService.getAgendas(this.empleado.idPersona,this.fecha).subscribe(
+      (response) =>{
+        this.agendasLibres = response;
+
+    this.modalService
+    .open(content, { ariaLabelledBy: 'modal-basic-title' })
+    .result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+      } ,
+      (error) => console.log('No se pudieron obtener las agendas')
+    );
+  }
+
+  guardarReserva(){
+    this.reservaService.postReserva(this.fecha.year.toString() + this.parseNumber(this.fecha.month) + this.parseNumber(this.fecha.day), this.agenda.horaInicioCadena, this.agenda.horaFinCadena, this.empleado.idPersona, this.cliente.idPersona, this.observacion)
+    .subscribe(
+      (res) => {
+        console.log('Reserva creada');
+        //volver al filtro
+        this.back();
+      },
+      (error) => console.log('No se pudo crear la reserva')
+    );
+  }
+
 }
 

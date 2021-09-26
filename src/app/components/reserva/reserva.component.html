@@ -122,6 +122,40 @@
   </div>
 </ng-template>
 
+<ng-template #contentModificar let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modificar Reserva</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="observacion" class="form-label">Observacion</label>
+      <textarea
+        class="form-control"
+        id="observacionTextarea"
+        rows="3"
+        [(ngModel)]="observacion"
+      ></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
+
 <div class="row">
   <div class="col-md-6">
     <button
@@ -158,6 +192,8 @@
         <th scope="col">Profesional</th>
         <th scope="col">Cliente</th>
         <th scope="col">Observacion</th>
+        <th scope="col">Asistencia</th>
+        <th scope="col">Estado</th>
         <th scope="col">Acciones</th>
       </tr>
     </thead>
@@ -167,21 +203,37 @@
         <td>{{ reserva.idEmpleado.nombre }} {{ reserva.idEmpleado.apellido }}</td>
         <td>{{ reserva.idCliente.nombre }} {{ reserva.idCliente.apellido }}</td>
         <td>{{ reserva.observacion }}</td>
+        <td>{{ reserva.flagAsistio }}</td>
+        <td>{{ reserva.flagEstado }}</td>
         <td>
           <i class="bi bi-x-lg"></i>
           <i class="bi bi-check"></i>
 
-          <button type="button" class="btn btn-outline-secondary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-              <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
-            </svg>
-          </button>
-
-            <button type="button" class="btn btn-outline-secondary">
+          <div *ngIf="reserva.flagAsistio==null && reserva.flagEstado=='R'; then thenAccion else elseAccion"></div>
+          <ng-template #thenAccion>
+            <button type="button" class="btn btn-outline-secondary" (click)="openModificar(contentModificar,reserva)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+              </svg>
+            </button>
+            <button type="button" class="btn btn-outline-secondary" (click)="cancelarReserva(reserva)">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                 <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
               </svg>
             </button>
+          </ng-template>
+          <ng-template #elseAccion>
+            <button [disabled]=true type="button" class="btn btn-outline-secondary" (click)="openModificar(contentModificar,reserva)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+              </svg>
+            </button>
+            <button [disabled]=true type="button" class="btn btn-outline-secondary" (click)="cancelarReserva(reserva)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+              </svg>
+            </button>
+          </ng-template>
 
         </td>
       </tr>
