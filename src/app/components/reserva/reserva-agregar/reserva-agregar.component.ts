@@ -143,7 +143,15 @@ export class ReservaAgregarComponent implements OnInit {
   }
 
   guardarReserva(){
-    this.reservaService.postReserva(this.fecha.year.toString() + this.parseNumber(this.fecha.month) + this.parseNumber(this.fecha.day), this.agenda.horaInicioCadena, this.agenda.horaFinCadena, this.empleado.idPersona, this.cliente.idPersona, this.observacion);
+    this.reservaService.postReserva(this.fecha.year.toString() + this.parseNumber(this.fecha.month) + this.parseNumber(this.fecha.day), this.agenda.horaInicioCadena, this.agenda.horaFinCadena, this.empleado.idPersona, this.cliente.idPersona, this.observacion)
+    .subscribe(
+      (res) => {
+        console.log('Reserva creada');
+        //volver al filtro
+        this.back();
+      },
+      (error) => console.log('No se pudo crear la reserva')
+    );
   }
 
 }

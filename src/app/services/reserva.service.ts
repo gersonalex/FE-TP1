@@ -142,7 +142,7 @@ export class ReservaService {
       .delete<Reserva>(this.endpoint+'/'+reserva.idReserva, { headers: httpHeaders });
   }
 
-  postReserva(fecha: string, horaInicioCadena: string, horaFinCadena: string, idPersonaEmpleado: number, idPersonaCliente: number, observacion: string): void{
+  postReserva(fecha: string, horaInicioCadena: string, horaFinCadena: string, idPersonaEmpleado: number, idPersonaCliente: number, observacion: string): Observable<any>{
 
     let data = {
       fechaCadena: fecha,
@@ -159,14 +159,7 @@ export class ReservaService {
 
     const httpHeaders = new HttpHeaders().append('Content-Type', 'application/json').append('usuario', 'usuario2');
 
-    this.http.post<Reserva>(this.endpoint, data, { headers: httpHeaders })
-    .subscribe(
-      (res) => {
-        console.log('Reserva creada');
-        console.log(res);
-      },
-      (error) => console.log('No se pudo crear la reserva')
-    );
+    return this.http.post<Reserva>(this.endpoint, data, { headers: httpHeaders });
   }
 
   parseNumber(number: number): string {

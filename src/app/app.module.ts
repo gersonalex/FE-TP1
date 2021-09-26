@@ -17,6 +17,7 @@ import { ReservaAgregarComponent } from './components/reserva/reserva-agregar/re
 import { ServicioAgregarComponent } from './components/servicio/servicio-agregar/servicio-agregar.component';
 import { PacienteComponent } from './components/paciente/paciente.component';
 import { ProductoComponent } from './components/producto/producto.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ProductoComponent } from './components/producto/producto.component';
     ServicioAgregarComponent,
     PacienteComponent,
     ProductoComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
