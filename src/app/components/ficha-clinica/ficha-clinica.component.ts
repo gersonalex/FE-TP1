@@ -3,6 +3,8 @@ import { Categoria } from 'src/app/models/Categoria';
 import { Subcategoria } from 'src/app/models/Subcategoria';
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { SubcategoriaService } from 'src/app/services/subcategoria.service';
+import { LoginService } from 'src/app/services/login.service';
+import { Router } from '@angular/router';
 
 import {
   NgbDateStruct,
@@ -44,44 +46,50 @@ export class FichaClinicaComponent implements OnInit {
     private subcategoriaService: SubcategoriaService,
     private personaService: PersonaService,
     private fichaClinicaService: FichaClinicaService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private loginService: LoginService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.categoriaService.getCategorias().subscribe(
-      (response) => (this.categorias = response.lista),
-      (error) => console.log('No se pudieron obtener las categorias')
-    );
+    if (this.loginService.usuariosActivos.length > 0) {
+      this.categoriaService.getCategorias().subscribe(
+        (response) => (this.categorias = response.lista),
+        (error) => console.log('No se pudieron obtener las categorias')
+      );
 
-    this.personaService.getEmpleados().subscribe(
-      (response) => (this.empleados = response.lista),
-      (error) => console.log('No se pudo obtener la lista de empleados')
-    );
+      this.personaService.getEmpleados().subscribe(
+        (response) => (this.empleados = response.lista),
+        (error) => console.log('No se pudo obtener la lista de empleados')
+      );
 
-    let personas: Persona[] = [];
-    let empleados: Persona[] = [];
+      let personas: Persona[] = [];
+      let empleados: Persona[] = [];
 
-    this.personaService
-      .getPersonas()
-      .pipe(
-        tap((res) => (personas = res.lista)),
-        concatMap((res) => this.personaService.getEmpleados()),
-        tap((res) => (empleados = res.lista))
-      )
-      .subscribe(() => {
-        // console.log(personas);
-        // console.log(empleados);
+      this.personaService
+        .getPersonas()
+        .pipe(
+          tap((res) => (personas = res.lista)),
+          concatMap((res) => this.personaService.getEmpleados()),
+          tap((res) => (empleados = res.lista))
+        )
+        .subscribe(() => {
+          // console.log(personas);
+          // console.log(empleados);
 
-        for (let index = 0; index < personas.length; index++) {
-          if (!this.containsObject(personas[index], empleados))
-            this.clientes.push(personas[index]);
-        }
-      });
+          for (let index = 0; index < personas.length; index++) {
+            if (!this.containsObject(personas[index], empleados))
+              this.clientes.push(personas[index]);
+          }
+        });
 
-    this.fichaClinicaService.getFichasClinicas().subscribe(
-      (data) => (this.fichasClinicas = data.lista),
-      (error) => console.log('no se pudieron conseguir las fichas clinicas')
-    );
+      this.fichaClinicaService.getFichasClinicas().subscribe(
+        (data) => (this.fichasClinicas = data.lista),
+        (error) => console.log('no se pudieron conseguir las fichas clinicas')
+      );
+    } else {
+      this.router.navigateByUrl('/login');
+    }
   }
 
   onChangeCategoria() {
@@ -152,21 +160,20 @@ export class FichaClinicaComponent implements OnInit {
   parseNumber(number: number): string {
     return number / 10 <= 1 ? '0' + number.toString() : number.toString();
   }
-  limpiarform(){
-    this.fechaDesde =  {
-      year:0,
-      month:0,
-      day: 0
+  limpiarform() {
+    this.fechaDesde = {
+      year: 0,
+      month: 0,
+      day: 0,
     };
-    this.fechaHasta =  {
-      year:0,
-      month:0,
-      day: 0
+    this.fechaHasta = {
+      year: 0,
+      month: 0,
+      day: 0,
     };
     this.cliente = new Persona();
     this.empleado = new Persona();
     this.categoria = new Categoria();
     this.subcategoria = new Subcategoria();
-
   }
 }

@@ -8,4 +8,5 @@ export class Persona {
   cedula!: string;
   tipoPersona!: string;
   fechaNacimiento!: string;
+  usuarioLogin!: string;
 }
