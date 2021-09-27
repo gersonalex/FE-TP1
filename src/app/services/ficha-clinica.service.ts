@@ -24,11 +24,14 @@ export class FichaClinicaService {
   ): Observable<listadatos<FichaClinica>> {
     let _endpoint =
       this.endpoint +
-      '?ejemplo={"fechaDesdeCadena":"' +
-      fechaDesde +
-      '","fechaHastaCadena":"' +
-      fechaHasta +
-      '"}';
+      '?ejemplo=' +
+      encodeURI(
+        '{"fechaDesdeCadena":"' +
+          fechaDesde +
+          '","fechaHastaCadena":"' +
+          fechaHasta +
+          '"}'
+      );
 
     return this.http.get<listadatos<FichaClinica>>(_endpoint);
   }
@@ -55,9 +58,8 @@ export class FichaClinicaService {
   ): Observable<listadatos<FichaClinica>> {
     let _endpoint =
       this.endpoint +
-      '?ejemplo={"idTipoProducto":{"idTipoProducto":' +
-      idSubcategoria +
-      '}}';
+      '?ejemplo=' +
+      encodeURI('{"idTipoProducto":{"idTipoProducto":' + idSubcategoria + '}}');
     return this.http.get<listadatos<FichaClinica>>(_endpoint);
   }
 
@@ -87,7 +89,9 @@ export class FichaClinicaService {
     console.log('vamos a insertar una nueva ficha');
     console.log(data);
 
-    const httpHeaders = new HttpHeaders().append('Content-Type', 'application/json').append('usuario', 'usuario2');
+    const httpHeaders = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('usuario', 'usuario2');
 
     this.http
       .post<FichaClinica>(this.endpoint, data, { headers: httpHeaders })
