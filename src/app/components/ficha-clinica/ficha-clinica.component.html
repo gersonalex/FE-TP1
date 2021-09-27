@@ -182,7 +182,9 @@
   <button type="button" class="btn btn-outline-primary" (click)="filtrar()">
     Buscar
   </button>
-  <button type="button" class="btn btn-outline-primary"(click) = "limpiarform()">Limpiar</button>
+  <button type="button" class="btn btn-outline-primary" (click)="limpiarform()">
+    Limpiar
+  </button>
 </div>
 
 <div class="row">
@@ -198,7 +200,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let ficha of fichasClinicas">
+      <tr *ngFor="let ficha of fichasFiltradas">
         <td>{{ ficha.fechaHora }}</td>
         <td>{{ ficha.idEmpleado.nombre }} {{ ficha.idEmpleado.apellido }}</td>
         <td>{{ ficha.idCliente.nombre }} {{ ficha.idCliente.apellido }}</td>

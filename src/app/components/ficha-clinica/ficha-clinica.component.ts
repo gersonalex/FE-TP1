@@ -27,9 +27,9 @@ export class FichaClinicaComponent implements OnInit {
   categorias: Categoria[] = [];
   subcategorias: Subcategoria[] = [];
   fichasClinicas: FichaClinica[] = [];
+  fichasFiltradas: FichaClinica[] = [];
   empleados: Persona[] = [];
   clientes: Persona[] = [];
-
   fechaDesde!: NgbDateStruct;
   fechaHasta!: NgbDateStruct;
   cliente: Persona = new Persona();
@@ -84,7 +84,10 @@ export class FichaClinicaComponent implements OnInit {
         });
 
       this.fichaClinicaService.getFichasClinicas().subscribe(
-        (data) => (this.fichasClinicas = data.lista),
+        (data) => {
+          this.fichasClinicas = data.lista;
+          this.fichasFiltradas = this.fichasClinicas;
+        },
         (error) => console.log('no se pudieron conseguir las fichas clinicas')
       );
     } else {
@@ -143,18 +146,71 @@ export class FichaClinicaComponent implements OnInit {
   }
 
   filtrar() {
-    let fechaD =
-      this.fechaDesde.year.toString() +
-      this.parseNumber(this.fechaDesde.month) +
-      this.parseNumber(this.fechaDesde.day);
+    this.fichasFiltradas = this.fichasClinicas;
+    console.log(this.fichasFiltradas);
+    const idSubCategoria = this.subcategoria.idTipoProducto;
+    const idCliente = this.cliente.idPersona;
+    const idEmpleado = this.empleado.idPersona;
 
-    let fechaH =
-      this.fechaHasta.year.toString() +
-      this.parseNumber(this.fechaHasta.month) +
-      this.parseNumber(this.fechaHasta.day);
+    if (this.fechaHasta !== undefined && this.fechaDesde !== undefined) {
+      let fechaD =
+        this.fechaDesde.year.toString() +
+        this.parseNumber(this.fechaDesde.month) +
+        this.parseNumber(this.fechaDesde.day);
 
-    console.log(fechaD);
-    console.log(fechaH);
+      let fechaH =
+        this.fechaHasta.year.toString() +
+        this.parseNumber(this.fechaHasta.month) +
+        this.parseNumber(this.fechaHasta.day);
+
+      this.fichaClinicaService
+        .getFichasRangoFechas(fechaD, fechaH)
+        .subscribe((respuesta) => {
+          this.fichasFiltradas = respuesta.lista;
+          console.log(this.fichasFiltradas);
+          if (Object.keys(this.subcategoria).length !== 0) {
+            let listaSubCategorias = [];
+            for (let index = 0; index < this.fichasFiltradas.length; index++) {
+              if (
+                this.fichasFiltradas[index].idTipoProducto.idTipoProducto ==
+                idSubCategoria
+              ) {
+                console.log(this.fichasFiltradas[index].idTipoProducto);
+                listaSubCategorias.push(this.fichasFiltradas[index]);
+              }
+            }
+            if (listaSubCategorias.length > 0) {
+              this.fichasFiltradas = listaSubCategorias;
+            }
+          }
+          if (Object.keys(this.cliente).length != 0) {
+            let listaFichasCliente = [];
+            for (let index = 0; index < this.fichasFiltradas.length; index++) {
+              if (
+                this.fichasFiltradas[index].idCliente.idPersona == idCliente
+              ) {
+                listaFichasCliente.push(this.fichasFiltradas[index]);
+              }
+            }
+            if (listaFichasCliente.length > 0) {
+              this.fichasFiltradas = listaFichasCliente;
+            }
+          }
+          if (Object.keys(this.empleado).length != 0) {
+            let listaFichaEmpleado = [];
+            for (let index = 0; index < this.fichasFiltradas.length; index++) {
+              if (
+                this.fichasFiltradas[index].idCliente.idPersona == idEmpleado
+              ) {
+                listaFichaEmpleado.push(this.fichasFiltradas[index]);
+              }
+            }
+            if (listaFichaEmpleado.length > 0) {
+              this.fichasFiltradas = listaFichaEmpleado;
+            }
+          }
+        });
+    }
   }
 
   parseNumber(number: number): string {
