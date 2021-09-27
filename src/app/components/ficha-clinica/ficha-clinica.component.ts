@@ -147,7 +147,7 @@ export class FichaClinicaComponent implements OnInit {
 
   filtrar() {
     this.fichasFiltradas = this.fichasClinicas;
-    console.log(this.fichasFiltradas);
+    // console.log(this.fichasFiltradas);
     const idSubCategoria = this.subcategoria.idTipoProducto;
     const idCliente = this.cliente.idPersona;
     const idEmpleado = this.empleado.idPersona;
@@ -167,7 +167,7 @@ export class FichaClinicaComponent implements OnInit {
         .getFichasRangoFechas(fechaD, fechaH)
         .subscribe((respuesta) => {
           this.fichasFiltradas = respuesta.lista;
-          console.log(this.fichasFiltradas);
+          // console.log(this.fichasFiltradas);
           if (Object.keys(this.subcategoria).length !== 0) {
             let listaSubCategorias = [];
             for (let index = 0; index < this.fichasFiltradas.length; index++) {
@@ -210,6 +210,92 @@ export class FichaClinicaComponent implements OnInit {
             }
           }
         });
+    }
+
+    if (
+      Object.keys(this.subcategoria).length !== 0 &&
+      this.fechaHasta === undefined &&
+      this.fechaDesde === undefined
+    ) {
+      let listaSubCategorias = [];
+      let listaFichasCliente = [];
+      let listaFichaEmpleado = [];
+      for (let index = 0; index < this.fichasFiltradas.length; index++) {
+        if (
+          this.fichasFiltradas[index].idTipoProducto.idTipoProducto ===
+          idSubCategoria
+        ) {
+          listaSubCategorias.push(this.fichasFiltradas[index]);
+        }
+      }
+      if (listaSubCategorias.length > 0) {
+        this.fichasFiltradas = listaSubCategorias;
+      }
+      if (Object.keys(this.cliente).length != 0) {
+        for (let index = 0; index < this.fichasFiltradas.length; index++) {
+          if (this.fichasFiltradas[index].idCliente.idPersona == idCliente) {
+            listaFichasCliente.push(this.fichasFiltradas[index]);
+          }
+        }
+        if (listaFichasCliente.length > 0) {
+          this.fichasFiltradas = listaFichasCliente;
+        }
+      }
+      if (Object.keys(this.empleado).length != 0) {
+        for (let index = 0; index < this.fichasFiltradas.length; index++) {
+          if (this.fichasFiltradas[index].idCliente.idPersona == idEmpleado) {
+            listaFichaEmpleado.push(this.fichasFiltradas[index]);
+          }
+        }
+        if (listaFichaEmpleado.length > 0) {
+          this.fichasFiltradas = listaFichaEmpleado;
+        }
+      }
+    }
+    if (
+      Object.keys(this.empleado).length != 0 &&
+      Object.keys(this.subcategoria).length === 0 &&
+      this.fechaHasta === undefined &&
+      this.fechaDesde === undefined
+    ) {
+      let listaFichasCliente = [];
+      let listaFichaEmpleado = [];
+      for (let index = 0; index < this.fichasFiltradas.length; index++) {
+        if (this.fichasFiltradas[index].idCliente.idPersona == idEmpleado) {
+          listaFichaEmpleado.push(this.fichasFiltradas[index]);
+        }
+      }
+      if (listaFichaEmpleado.length > 0) {
+        this.fichasFiltradas = listaFichaEmpleado;
+      }
+      if (Object.keys(this.cliente).length != 0) {
+        for (let index = 0; index < this.fichasFiltradas.length; index++) {
+          if (this.fichasFiltradas[index].idCliente.idPersona == idCliente) {
+            listaFichasCliente.push(this.fichasFiltradas[index]);
+          }
+        }
+        if (listaFichasCliente.length > 0) {
+          this.fichasFiltradas = listaFichasCliente;
+        }
+      }
+    }
+
+    if (
+      Object.keys(this.cliente).length != 0 &&
+      Object.keys(this.empleado).length === 0 &&
+      Object.keys(this.subcategoria).length === 0 &&
+      this.fechaHasta === undefined &&
+      this.fechaDesde === undefined
+    ) {
+      let listaFichasCliente = [];
+      for (let index = 0; index < this.fichasFiltradas.length; index++) {
+        if (this.fichasFiltradas[index].idCliente.idPersona == idCliente) {
+          listaFichasCliente.push(this.fichasFiltradas[index]);
+        }
+      }
+      if (listaFichasCliente.length > 0) {
+        this.fichasFiltradas = listaFichasCliente;
+      }
     }
   }
 
