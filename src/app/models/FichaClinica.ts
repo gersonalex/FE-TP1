@@ -9,4 +9,7 @@ export class FichaClinica {
   idCliente!: Persona;
   //   idCategoria!: Categoria;
   idTipoProducto!: Subcategoria;
+  motivoConsulta!: string;
+  diagnostico!: string;
+  observacion!: string;
 }

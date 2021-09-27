@@ -1,5 +1,23 @@
 <app-navbar></app-navbar>
-ficha para modificar
+
+<div class="col-md-6">
+  <label>Fecha</label>
+  <div class="col-md-6 input-group">
+    <input
+      class="form-control"
+      placeholder="yyyy-mm-dd"
+      name="dp"
+      [(ngModel)]="fecha"
+      disabled
+    />
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary calendar" type="button">
+        <span class="calendar"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-md-6">
     <label for="exampleInputEmail1">Categorias</label>
@@ -7,11 +25,11 @@ ficha para modificar
       class="form-select"
       id="exampleInputEmail1"
       aria-label="Default select example"
-      (change)="onChangeCategoria()"
       [(ngModel)]="categoria"
+      disabled="disabled"
     >
-      <option *ngFor="let categoria of categorias" [ngValue]="categoria">
-        {{ categoria.descripcion }}
+      <option [ngValue]="categoria">
+        {{ categoria }}
       </option>
     </select>
   </div>
@@ -23,111 +41,33 @@ ficha para modificar
       id="exampleInputEmail1"
       aria-label="Default select example"
       [(ngModel)]="subcategoria"
+      disabled="disabled"
     >
-      <option
-        *ngFor="let subcategoria of subcategorias"
-        [ngValue]="subcategoria"
-      >
-        {{ subcategoria.descripcion }}
+      <option [ngValue]="subcategoria">
+        {{ subcategoria }}
       </option>
     </select>
   </div>
 </div>
 
-<ng-template #contentEmpleados let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Empleados</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="form-group">
-      <label for="dateOfBirth">Empleados</label>
-      <select
-        class="form-select"
-        id="exampleInputEmail1"
-        aria-label="Default select example"
-        [(ngModel)]="empleado"
-      >
-        <option *ngFor="let empleado of empleados" [ngValue]="empleado">
-          {{ empleado.nombre }} {{ empleado.apellido }}
-        </option>
-      </select>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.close('Save click')"
-    >
-      Guardar
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #contentClientes let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Clientes</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="form-group">
-      <label for="dateOfBirth">Cliente</label>
-      <select
-        class="form-select"
-        id="exampleInputEmail1"
-        aria-label="Default select example"
-        [(ngModel)]="cliente"
-      >
-        <option *ngFor="let cliente of clientes" [ngValue]="cliente">
-          {{ cliente.nombre }} {{ cliente.apellido }}
-        </option>
-      </select>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.close('Save click')"
-    >
-      Guardar
-    </button>
-  </div>
-</ng-template>
-
 <div class="row">
   <div class="col-md-6">
-    <button
+    <!-- <button
       class="btn btn-lg btn-outline-primary"
       (click)="openEmpleados(contentEmpleados)"
     >
       Empleados
-    </button>
-    Empleado seleccionado: {{ empleado.nombre }} {{ empleado.apellido }}
+    </button> -->
+    Empleado: {{ empleado.nombre }} {{ empleado.apellido }}
   </div>
   <div class="col-md-6">
-    <button
+    <!-- <button
       class="btn btn-lg btn-outline-primary"
       (click)="openClientes(contentClientes)"
     >
       Clientes
-    </button>
-    Cliente seleccionado: {{ cliente.nombre }} {{ cliente.apellido }}
+    </button> -->
+    Cliente: {{ cliente.nombre }} {{ cliente.apellido }}
   </div>
 </div>
 
@@ -139,6 +79,7 @@ ficha para modificar
       id="exampleFormControlTextarea1"
       rows="3"
       [(ngModel)]="motivo"
+      disabled
     ></textarea>
   </div>
   <div class="col-md-6">
@@ -150,6 +91,7 @@ ficha para modificar
       id="exampleFormControlTextarea1"
       rows="3"
       [(ngModel)]="diagnostico"
+      disabled
     ></textarea>
   </div>
 </div>

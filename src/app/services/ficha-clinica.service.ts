@@ -103,4 +103,22 @@ export class FichaClinicaService {
         (error) => console.log('No se pudo crear la ficha clinica')
       );
   }
+  actualizarFicha(idFicha: number, observacion: string) {
+    const httpHeaders = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('usuario', 'usuario2');
+    let data = {
+      idFichaClinica: idFicha,
+      observacion: observacion,
+    };
+    this.http
+      .put<FichaClinica>(this.endpoint, data, { headers: httpHeaders })
+      .subscribe(
+        (res) => {
+          console.log('Fecha Clinica modificada');
+          console.log(res);
+        },
+        (error) => console.log('No se pudo editar la ficha clinica')
+      );
+  }
 }

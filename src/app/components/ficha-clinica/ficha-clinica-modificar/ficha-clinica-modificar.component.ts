@@ -13,6 +13,8 @@ import { CategoriaService } from 'src/app/services/categoria.service';
 import { FichaClinicaService } from 'src/app/services/ficha-clinica.service';
 import { PersonaService } from 'src/app/services/persona.service';
 import { SubcategoriaService } from 'src/app/services/subcategoria.service';
+import { ActivatedRoute } from '@angular/router';
+import { FichaClinica } from 'src/app/models/FichaClinica';
 
 @Component({
   selector: 'app-ficha-clinica-modificar',
@@ -20,20 +22,23 @@ import { SubcategoriaService } from 'src/app/services/subcategoria.service';
   styleUrls: ['./ficha-clinica-modificar.component.css'],
 })
 export class FichaClinicaModificarComponent implements OnInit {
-  fecha!: NgbDateStruct;
+  fecha!: string;
   categorias: Categoria[] = [];
   subcategorias: Subcategoria[] = [];
   empleados: Persona[] = [];
   clientes: Persona[] = [];
+  fichasClinicas: FichaClinica[] = [];
+  FichaClinica!: FichaClinica;
   closeResult = '';
   //variables del formulario
-  categoria: Categoria = new Categoria();
-  subcategoria: Subcategoria = new Subcategoria();
+  categoria: string = '';
+  subcategoria: string = '';
   cliente: Persona = new Persona();
   empleado: Persona = new Persona();
   motivo: string = '';
   diagnostico: string = '';
   observacion: string = '';
+  fichaId: number = 0;
 
   constructor(
     private categoriaService: CategoriaService,
@@ -41,77 +46,48 @@ export class FichaClinicaModificarComponent implements OnInit {
     private personaService: PersonaService,
     private fichaClinicaService: FichaClinicaService,
     private modalService: NgbModal,
-    private _location: Location
+    private _location: Location,
+    private router: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fichaId = Number(this.router.snapshot.params.id); //tipo string
 
-  onChangeCategoria() {
-    this.subcategoriaService.getSubCategorias(this.categoria).subscribe(
-      (response) => (this.subcategorias = response.lista),
-      (error) => console.log('No se pudieron obtener las subcategorias')
+    this.fichaClinicaService.getFichasClinicas().subscribe(
+      (response) => {
+        this.fichasClinicas = response.lista;
+        for (let index = 0; index < this.fichasClinicas.length; index++) {
+          const ficha = this.fichasClinicas[index];
+          if (ficha.idFichaClinica == this.fichaId) {
+            this.FichaClinica = ficha;
+            console.log(this.FichaClinica);
+            break;
+          }
+        }
+        this.motivo = this.FichaClinica.motivoConsulta;
+        this.diagnostico = this.FichaClinica.diagnostico;
+        this.observacion = this.FichaClinica.observacion;
+        this.empleado = this.FichaClinica.idEmpleado;
+        this.cliente = this.FichaClinica.idCliente;
+        this.categoria =
+          this.FichaClinica.idTipoProducto.idCategoria.descripcion;
+        this.subcategoria = this.FichaClinica.idTipoProducto.descripcion;
+        this.fecha = this.FichaClinica.fechaHora.split(' ')[0];
+        console.log(this.fecha);
+        // let fecha = {
+        //   year: fechaString.split('-')[0],
+        //   month: fechaString.split('-')[1],
+        //   day: fechaString.split('-')[2],
+        // };
+        // this.fecha = fecha;
+        // console.log(fecha);
+      },
+      (error) => console.log('No se pudieron obtener las fichas clinicas')
     );
-  }
-
-  openEmpleados(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-
-  openClientes(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
-  private containsObject(persona: Persona, list: Persona[]) {
-    for (let index = 0; index < list.length; index++) {
-      if (list[index] === persona) return true;
-    }
-    return false;
   }
 
   guardarFichaClinica(): void {
-    this.fichaClinicaService.postFichaClinica(
-      this.motivo,
-      this.diagnostico,
-      this.observacion,
-      this.empleado,
-      this.cliente,
-      this.subcategoria
-    );
-    this.categoria = new Categoria();
-    this.subcategoria = new Subcategoria();
-    this.cliente = new Persona();
-    this.empleado = new Persona();
-    this.motivo = '';
-    this.diagnostico = '';
-    this.observacion = '';
+    this.fichaClinicaService.actualizarFicha(this.fichaId, this.observacion);
   }
 
   back(): void {
