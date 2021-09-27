@@ -22,12 +22,12 @@ export class SubcategoriaService {
       this.endpoint + encodeURI(postString)
     );
   }
-  postSubcategoria(categoria: Categoria, descripcion: string) {
+  postSubcategoria(idCategoria: number, descripcion: string) {
     let nuevaSubcategoria: Subcategoria;
 
     this.http
       .post<Subcategoria>('http://181.123.243.5:8080/stock-pwfe/tipoProducto', {
-        idCategoria: { idCategoria: categoria.idCategoria },
+        idCategoria: { idCategoria: idCategoria },
         descripcion: descripcion,
       })
       .subscribe((res) => console.log(res));

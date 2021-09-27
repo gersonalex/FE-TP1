@@ -19,6 +19,7 @@ import { PacienteComponent } from './components/paciente/paciente.component';
 import { ProductoComponent } from './components/producto/producto.component';
 import { LoginComponent } from './components/login/login.component';
 import { FichaClinicaModificarComponent } from './components/ficha-clinica/ficha-clinica-modificar/ficha-clinica-modificar.component';
+import { SubcategoriaComponent } from './components/categoria/subcategoria/subcategoria.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +35,7 @@ import { FichaClinicaModificarComponent } from './components/ficha-clinica/ficha
     ProductoComponent,
     LoginComponent,
     FichaClinicaModificarComponent,
+    SubcategoriaComponent,
   ],
   imports: [
     BrowserModule,

@@ -22,13 +22,11 @@ export class CategoriaService {
     return this.http.get<listadatos<Categoria>>(this.endpoint);
   }
 
-  postCategoria(descripcionCategoria: string, descripcionSubcategoria: string) {
+  postCategoria(descripcionCategoria: string) {
     let nuevaCategoria: Categoria;
 
     this.http
       .post<Categoria>(this.endpoint, { descripcion: descripcionCategoria })
-      .subscribe((res) => {
-        this.subcategoriaService.postSubcategoria(res, descripcionSubcategoria);
-      });
+      .subscribe((res) => {});
   }
 }

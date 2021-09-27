@@ -35,7 +35,7 @@ export class CategoriaComponent implements OnInit {
   }
 
   createCategoria(): void {
-    this.categoriaService.postCategoria(this.categoria, this.subcategoria);
+    this.categoriaService.postCategoria(this.categoria);
     this.categoria = '';
     this.subcategoria = '';
   }

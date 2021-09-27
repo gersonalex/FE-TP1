@@ -13,19 +13,6 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="form-group">
-    <label for="exampleInputPassword1">Nueva Subcategoria</label>
-    <input
-      type="text"
-      class="form-control"
-      id="exampleInputPassword1"
-      [(ngModel)]="subcategoria"
-      placeholder="Ingrese la descripcion de la nueva subcategoria"
-    />
-  </div>
-</div>
-
 <button type="submit" class="btn btn-primary" (click)="createCategoria()">
   Crear
 </button>
@@ -47,6 +34,13 @@
           <td>
             <a class="btn btn-link" (click)="obtenerSubcategorias(categoria)">
               Ver
+            </a>
+            /
+            <a
+              class="btn btn-link"
+              routerLink="agregar-subcategoria/{{ categoria.idCategoria }}"
+            >
+              Agregar
             </a>
           </td>
         </tr>

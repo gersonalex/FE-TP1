@@ -11,6 +11,8 @@ import { ServicioAgregarComponent } from './components/servicio/servicio-agregar
 import { ServicioComponent } from './components/servicio/servicio.component';
 import { LoginComponent } from './components/login/login.component';
 import { FichaClinicaModificarComponent } from './components/ficha-clinica/ficha-clinica-modificar/ficha-clinica-modificar.component';
+import { Subcategoria } from './models/Subcategoria';
+import { SubcategoriaComponent } from './components/categoria/subcategoria/subcategoria.component';
 
 const routes: Routes = [
   { path: '', component: FichaClinicaComponent },
@@ -27,6 +29,10 @@ const routes: Routes = [
   { path: 'pacientes', component: PacienteComponent },
   { path: 'productos', component: ProductoComponent },
   { path: 'login', component: LoginComponent },
+  {
+    path: 'categoria/agregar-subcategoria/:id',
+    component: SubcategoriaComponent,
+  },
 ];
 
 @NgModule({
