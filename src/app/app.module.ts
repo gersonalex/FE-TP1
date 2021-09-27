@@ -18,8 +18,7 @@ import { ServicioAgregarComponent } from './components/servicio/servicio-agregar
 import { PacienteComponent } from './components/paciente/paciente.component';
 import { ProductoComponent } from './components/producto/producto.component';
 import { LoginComponent } from './components/login/login.component';
-
-
+import { FichaClinicaModificarComponent } from './components/ficha-clinica/ficha-clinica-modificar/ficha-clinica-modificar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +33,7 @@ import { LoginComponent } from './components/login/login.component';
     PacienteComponent,
     ProductoComponent,
     LoginComponent,
+    FichaClinicaModificarComponent,
   ],
   imports: [
     BrowserModule,
