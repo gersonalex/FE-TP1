@@ -200,7 +200,7 @@ export class FichaClinicaComponent implements OnInit {
             let listaFichaEmpleado = [];
             for (let index = 0; index < this.fichasFiltradas.length; index++) {
               if (
-                this.fichasFiltradas[index].idCliente.idPersona == idEmpleado
+                this.fichasFiltradas[index].idEmpleado.idPersona == idEmpleado
               ) {
                 listaFichaEmpleado.push(this.fichasFiltradas[index]);
               }
@@ -220,6 +220,7 @@ export class FichaClinicaComponent implements OnInit {
       let listaSubCategorias = [];
       let listaFichasCliente = [];
       let listaFichaEmpleado = [];
+      console.log('entramos en subcategoria');
       for (let index = 0; index < this.fichasFiltradas.length; index++) {
         if (
           this.fichasFiltradas[index].idTipoProducto.idTipoProducto ===
@@ -243,7 +244,7 @@ export class FichaClinicaComponent implements OnInit {
       }
       if (Object.keys(this.empleado).length != 0) {
         for (let index = 0; index < this.fichasFiltradas.length; index++) {
-          if (this.fichasFiltradas[index].idCliente.idPersona == idEmpleado) {
+          if (this.fichasFiltradas[index].idEmpleado.idPersona == idEmpleado) {
             listaFichaEmpleado.push(this.fichasFiltradas[index]);
           }
         }
@@ -261,7 +262,7 @@ export class FichaClinicaComponent implements OnInit {
       let listaFichasCliente = [];
       let listaFichaEmpleado = [];
       for (let index = 0; index < this.fichasFiltradas.length; index++) {
-        if (this.fichasFiltradas[index].idCliente.idPersona == idEmpleado) {
+        if (this.fichasFiltradas[index].idEmpleado.idPersona == idEmpleado) {
           listaFichaEmpleado.push(this.fichasFiltradas[index]);
         }
       }
