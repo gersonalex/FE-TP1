@@ -30,6 +30,7 @@ export class ServicioComponent implements OnInit {
   closeResult = '';
   empleados: Persona[] = [];
   clientes: Persona[] = [];
+  serviciosFiltrados: Servicio[] = [];
 
   //variables del formulario
   categoria: Categoria = new Categoria();
@@ -131,38 +132,208 @@ export class ServicioComponent implements OnInit {
   }
 
   filtrar() {
-    let fechaD =
-      this.fechaDesde.year.toString() +
-      this.parseNumber(this.fechaDesde.month) +
-      this.parseNumber(this.fechaDesde.day);
+    this.serviciosFiltrados = this.servicios;
+    // console.log(this.fichasFiltradas);
+    const idSubCategoria = this.subcategoria.idTipoProducto;
+    const idCliente = this.cliente.idPersona;
+    const idEmpleado = this.empleado.idPersona;
 
-    let fechaH =
-      this.fechaHasta.year.toString() +
-      this.parseNumber(this.fechaHasta.month) +
-      this.parseNumber(this.fechaHasta.day);
+    if (this.fechaHasta !== undefined && this.fechaDesde !== undefined) {
+      let fechaD =
+        this.fechaDesde.year.toString() +
+        this.parseNumber(this.fechaDesde.month) +
+        this.parseNumber(this.fechaDesde.day);
 
-    console.log(fechaD);
-    console.log(fechaH);
+      let fechaH =
+        this.fechaHasta.year.toString() +
+        this.parseNumber(this.fechaHasta.month) +
+        this.parseNumber(this.fechaHasta.day);
+
+      this.servicioService
+        .getServiciosRangoFechas(fechaD, fechaH)
+        .subscribe((respuesta) => {
+          this.serviciosFiltrados = respuesta.lista;
+          // console.log(this.fichasFiltradas);
+          if (Object.keys(this.subcategoria).length !== 0) {
+            let listaSubCategorias = [];
+            for (
+              let index = 0;
+              index < this.serviciosFiltrados.length;
+              index++
+            ) {
+              if (
+                this.serviciosFiltrados[index].idFichaClinica.idTipoProducto
+                  .idTipoProducto == idSubCategoria
+              ) {
+                console.log(
+                  this.serviciosFiltrados[index].idFichaClinica.idTipoProducto
+                );
+                listaSubCategorias.push(this.serviciosFiltrados[index]);
+              }
+            }
+            if (listaSubCategorias.length > 0) {
+              this.serviciosFiltrados = listaSubCategorias;
+            }
+          }
+          if (Object.keys(this.cliente).length != 0) {
+            let listaFichasCliente = [];
+            for (
+              let index = 0;
+              index < this.serviciosFiltrados.length;
+              index++
+            ) {
+              if (
+                this.serviciosFiltrados[index].idFichaClinica.idCliente
+                  .idPersona == idCliente
+              ) {
+                listaFichasCliente.push(this.serviciosFiltrados[index]);
+              }
+            }
+            if (listaFichasCliente.length > 0) {
+              this.serviciosFiltrados = listaFichasCliente;
+            }
+          }
+          if (Object.keys(this.empleado).length != 0) {
+            let listaFichaEmpleado = [];
+            for (
+              let index = 0;
+              index < this.serviciosFiltrados.length;
+              index++
+            ) {
+              if (
+                this.serviciosFiltrados[index].idFichaClinica.idEmpleado
+                  .idPersona == idEmpleado
+              ) {
+                listaFichaEmpleado.push(this.serviciosFiltrados[index]);
+              }
+            }
+            if (listaFichaEmpleado.length > 0) {
+              this.serviciosFiltrados = listaFichaEmpleado;
+            }
+          }
+        });
+    }
+
+    if (
+      Object.keys(this.subcategoria).length !== 0 &&
+      this.fechaHasta === undefined &&
+      this.fechaDesde === undefined
+    ) {
+      let listaSubCategorias = [];
+      let listaFichasCliente = [];
+      let listaFichaEmpleado = [];
+      console.log('entramos en subcategoria');
+      for (let index = 0; index < this.serviciosFiltrados.length; index++) {
+        if (
+          this.serviciosFiltrados[index].idFichaClinica.idTipoProducto
+            .idTipoProducto === idSubCategoria
+        ) {
+          listaSubCategorias.push(this.serviciosFiltrados[index]);
+        }
+      }
+      if (listaSubCategorias.length > 0) {
+        this.serviciosFiltrados = listaSubCategorias;
+      }
+      if (Object.keys(this.cliente).length != 0) {
+        for (let index = 0; index < this.serviciosFiltrados.length; index++) {
+          if (
+            this.serviciosFiltrados[index].idFichaClinica.idCliente.idPersona ==
+            idCliente
+          ) {
+            listaFichasCliente.push(this.serviciosFiltrados[index]);
+          }
+        }
+        if (listaFichasCliente.length > 0) {
+          this.serviciosFiltrados = listaFichasCliente;
+        }
+      }
+      if (Object.keys(this.empleado).length != 0) {
+        for (let index = 0; index < this.serviciosFiltrados.length; index++) {
+          if (
+            this.serviciosFiltrados[index].idFichaClinica.idEmpleado
+              .idPersona == idEmpleado
+          ) {
+            listaFichaEmpleado.push(this.serviciosFiltrados[index]);
+          }
+        }
+        if (listaFichaEmpleado.length > 0) {
+          this.serviciosFiltrados = listaFichaEmpleado;
+        }
+      }
+    }
+    if (
+      Object.keys(this.empleado).length != 0 &&
+      Object.keys(this.subcategoria).length === 0 &&
+      this.fechaHasta === undefined &&
+      this.fechaDesde === undefined
+    ) {
+      let listaFichasCliente = [];
+      let listaFichaEmpleado = [];
+      for (let index = 0; index < this.serviciosFiltrados.length; index++) {
+        if (
+          this.serviciosFiltrados[index].idFichaClinica.idEmpleado.idPersona ==
+          idEmpleado
+        ) {
+          listaFichaEmpleado.push(this.serviciosFiltrados[index]);
+        }
+      }
+      if (listaFichaEmpleado.length > 0) {
+        this.serviciosFiltrados = listaFichaEmpleado;
+      }
+      if (Object.keys(this.cliente).length != 0) {
+        for (let index = 0; index < this.serviciosFiltrados.length; index++) {
+          if (
+            this.serviciosFiltrados[index].idFichaClinica.idCliente.idPersona ==
+            idCliente
+          ) {
+            listaFichasCliente.push(this.serviciosFiltrados[index]);
+          }
+        }
+        if (listaFichasCliente.length > 0) {
+          this.serviciosFiltrados = listaFichasCliente;
+        }
+      }
+    }
+
+    if (
+      Object.keys(this.cliente).length != 0 &&
+      Object.keys(this.empleado).length === 0 &&
+      Object.keys(this.subcategoria).length === 0 &&
+      this.fechaHasta === undefined &&
+      this.fechaDesde === undefined
+    ) {
+      let listaFichasCliente = [];
+      for (let index = 0; index < this.serviciosFiltrados.length; index++) {
+        if (
+          this.serviciosFiltrados[index].idFichaClinica.idCliente.idPersona ==
+          idCliente
+        ) {
+          listaFichasCliente.push(this.serviciosFiltrados[index]);
+        }
+      }
+      if (listaFichasCliente.length > 0) {
+        this.serviciosFiltrados = listaFichasCliente;
+      }
+    }
   }
 
   parseNumber(number: number): string {
     return number / 10 <= 1 ? '0' + number.toString() : number.toString();
   }
-  limpiarservicio(){
-    this.fechaDesde =  {
-      year:0,
-      month:0,
-      day: 0
+  limpiarservicio() {
+    this.fechaDesde = {
+      year: 0,
+      month: 0,
+      day: 0,
     };
-    this.fechaHasta =  {
-      year:0,
-      month:0,
-      day: 0
+    this.fechaHasta = {
+      year: 0,
+      month: 0,
+      day: 0,
     };
     this.cliente = new Persona();
     this.empleado = new Persona();
     this.categoria = new Categoria();
     this.subcategoria = new Subcategoria();
-
   }
 }

@@ -17,6 +17,24 @@ export class ServicioService {
     return this.http.get<listadatos<Servicio>>(this.endpoint);
   }
 
+  getServiciosRangoFechas(
+    fechaDesde: string,
+    fechaHasta: string
+  ): Observable<listadatos<Servicio>> {
+    let _endpoint =
+      this.endpoint +
+      '?ejemplo=' +
+      encodeURI(
+        '{"fechaDesdeCadena":"' +
+          fechaDesde +
+          '","fechaHastaCadena":"' +
+          fechaHasta +
+          '"}'
+      );
+
+    return this.http.get<listadatos<Servicio>>(_endpoint);
+  }
+
   postServicio(idFicha: number, observacion: number) {
     const httpHeaders = new HttpHeaders()
       .append('Content-Type', 'application/json')
